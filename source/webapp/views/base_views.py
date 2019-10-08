@@ -60,7 +60,7 @@ class DeleteView(View):
     pk_kwargs_url = 'pk'
     context_object_name = None
     object = None
-    error_page = None
+    error = None
 
     def get(self, request, *args, **kwargs):
         object = self.get_object()
@@ -72,7 +72,7 @@ class DeleteView(View):
             self.object.delete()
             return redirect(self.get_redirect_url())
         except:
-            return render(request, self.error_page)
+            return render(request, self.error)
 
     def get_object(self):
         pk = self.kwargs.get(self.pk_kwargs_url)

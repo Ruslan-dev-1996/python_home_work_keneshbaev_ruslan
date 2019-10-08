@@ -43,6 +43,7 @@ class TypeDeleteView(DeleteView):
     model = Type
     template_name = 'type/delete_type.html'
     context_object_name = 'type'
+    error = 'error_type.html'
 
     def get_redirect_url(self):
         return reverse('type_view')

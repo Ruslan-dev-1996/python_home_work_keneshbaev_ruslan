@@ -40,6 +40,7 @@ class StatusDeleteView(DeleteView):
     model = Status
     template_name = 'status/delete_status.html'
     context_object_name = 'status'
+    error = 'error.html'
 
     def get_redirect_url(self):
         return reverse('status_view')
