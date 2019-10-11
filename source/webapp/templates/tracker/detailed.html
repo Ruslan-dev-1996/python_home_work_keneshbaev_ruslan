@@ -9,7 +9,7 @@
 
 {% block content %}
     <h1>{{ tracker.summary }}</h1>
-    <p>{{ tracker.summary }} ({{ tracker.status|default_if_none:'Без категории' }})
+    <p>{{ tracker.summary }} {{ tracker.type }} ({{ tracker.status|default_if_none:'Без категории' }})
             at {{ tracker.created_at|date:'d.m.Y H:i:s' }}</p>
     <div class="pre">{{ tracker.description }}</div>
 {% endblock %}

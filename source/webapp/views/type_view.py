@@ -1,13 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
-
 from webapp.forms import TypeForm
 from webapp.models import Type
-from django.views import View
-from django.views.generic import TemplateView
-from django.views.generic.edit import CreateView
+from django.views.generic import CreateView,  ListView, UpdateView, DeleteView
 
-from .base_views import ListView, UpdateView, DeleteView
+
 
 
 class TypeView(ListView):
@@ -15,13 +12,15 @@ class TypeView(ListView):
     model = Type
     context_key = 'types'
 
-
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context[self.context_key] = self.model.objects.all()
+        return context
 
 class TypeCreateView(CreateView):
     template_name = 'type/create_type.html'
     model = Type
-    fields = ['name']
+    fields = ['type']
 
     def get_success_url(self):
         return reverse('type_view')
@@ -34,7 +33,7 @@ class TypeUpdateView(UpdateView):
     form_class = TypeForm
     context_object_name = 'type'
 
-    def get_redirect_url(self):
+    def get_success_url(self):
         return reverse('type_view')
 
 
@@ -45,5 +44,5 @@ class TypeDeleteView(DeleteView):
     context_object_name = 'type'
     error = 'error_type.html'
 
-    def get_redirect_url(self):
-        return reverse('type_view')
+    def get_success_url(self):
+        return reverse('type_view' )

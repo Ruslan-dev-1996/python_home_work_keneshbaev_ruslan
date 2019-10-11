@@ -1,13 +1,12 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 
 from webapp.forms import TrackerForm
 from webapp.models import Tracker
+from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView
 
-from django.views.generic import ListView, CreateView, UpdateView
 
-from webapp.views.base_detailed import DetailView
-from webapp.views.base_views import DeleteView
 
 
 class IndexView(ListView):
@@ -28,15 +27,14 @@ class TrackerView(DetailView):
 
 
 
-
 class TrackerCreateView(CreateView):
     template_name = 'tracker/create.html'
     model = Tracker
-    fields = ['summary', 'description', 'status', 'type']
+    form_class = TrackerForm
+    # fields = ['summary', 'description', 'status', 'type']
 
     def get_success_url(self):
         return reverse('tracker_view', kwargs={'pk': self.object.pk})
-
 
 
 
@@ -46,8 +44,7 @@ class TrackerUpdateView(UpdateView):
     template_name = 'tracker/update.html'
     form_class = TrackerForm
     context_object_name = 'issue'
-
-    def get_redirect_url(self):
+    def get_success_url(self):
         return reverse('tracker_view', kwargs={'pk': self.object.pk})
 
 
@@ -56,5 +53,6 @@ class TrackerDeleteView(DeleteView):
     template_name = 'tracker/delete.html'
     context_object_name = 'issue'
 
-    def get_redirect_url(self):
+
+    def get_success_url(self):
         return reverse('index')

@@ -1,19 +1,21 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
-
 from webapp.forms import StatusForm
 from webapp.models import Status
-from django.views import View
+from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 
-from django.views.generic.edit import CreateView
 
-from .base_views import ListView, UpdateView, DeleteView
 
 
 class StatusView(ListView):
     template_name = 'status/status_view.html'
     model = Status
-    context_key = 'statuses'
+    context_object_name = 'statuses'
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context[self.context_key] = self.model.objects.all()
+    #     return context
 
 
 
@@ -31,7 +33,7 @@ class StatusUpdateView(UpdateView):
     form_class = StatusForm
     context_object_name = 'status'
 
-    def get_redirect_url(self):
+    def get_success_url(self):
         return reverse('status_view')
 
 
@@ -42,5 +44,5 @@ class StatusDeleteView(DeleteView):
     context_object_name = 'status'
     error = 'error.html'
 
-    def get_redirect_url(self):
+    def get_success_url(self):
         return reverse('status_view')

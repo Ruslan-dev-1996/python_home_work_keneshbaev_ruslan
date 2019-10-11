@@ -1,11 +1,11 @@
 from django import forms
-from webapp.models import Status, Type, Tracker
+from webapp.models import Status, Type, Tracker, Project
 
 
 class TrackerForm(forms.ModelForm):
     class Meta:
         model = Tracker
-        fields = ['summary', 'description', 'status', 'type']
+        exclude = ['created_at']
 
 
 class StatusForm(forms.ModelForm):
@@ -17,4 +17,9 @@ class StatusForm(forms.ModelForm):
 class TypeForm(forms.ModelForm):
     class Meta:
         model = Type
-        fields = ['name']
+        fields = ['type']
+
+class ProjectForm(forms.ModelForm):
+    class Meta:
+        model = Project
+        exclude = ['created_at', 'updated_at']
